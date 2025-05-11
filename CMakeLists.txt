@@ -186,10 +186,12 @@ elseif(MSVC)
     # Merge duplicate data/functions
     add_link_options("$<$<CONFIG:Release>:/OPT:ICF>")
 
+    add_compile_options($<$<BOOL:${MSVC_IDE}>:/MP>) # Speed up Visual Studio builds
+endif()
+
+if(WIN32)
     # Allow usage of unsafe CRT functions and minimize what Windows.h leaks
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
-
-    add_compile_options($<$<BOOL:${MSVC_IDE}>:/MP>) # Speed up Visual Studio builds
 endif()
 
 add_subdirectory(src)
